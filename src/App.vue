@@ -32,7 +32,7 @@
         </li>
       </ul>
       <div v-if="mode === 'edit'" class="mrgt+ text-center">
-        <button type="button" class="btn btn--default" @click="addPalette">
+        <button type="button" class="btn btn--default" @click="addPalette()">
           <Icon id="add" :scale="0.75" class="mrgr--" />
           Add palette
         </button>
