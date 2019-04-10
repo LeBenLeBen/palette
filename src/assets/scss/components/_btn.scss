@@ -1,0 +1,71 @@
+/*----------------------------------------*\
+  BTN
+  @extends Kanbasu
+\*----------------------------------------*/
+
+.btn {}
+
+.btn--default,
+.btn--primary,
+.btn--secondary,
+.btn--dark {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.btn--default {
+  color: $alt-color-dark;
+
+  box-shadow: 0 2px 7px rgba(0,0,0,.1);
+
+  &:hover,
+  &:focus {
+    color: $alt-color-darker;
+  }
+
+  &:active,
+  &.active {
+    color: $alt-color-darker;
+
+    box-shadow: none;
+    background-color: $alt-color-lighter;
+  }
+}
+
+.btn--dark {
+  color: $alt-color-light;
+
+  background-color: $alt-color-dark;
+  box-shadow: 0 2px 7px rgba(0,0,0,.3);
+
+  &:hover,
+  &:focus {
+    color: white;
+  }
+
+  &:active,
+  &.active {
+    color: white;
+
+    box-shadow: 0 2px 7px rgba(0,0,0,.3) inset;
+    background-color: darken($alt-color-darker, 5%);
+  }
+}
+
+.btn--secondary {
+  color: $alt-color-dark;
+
+  &:hover,
+  &:focus {
+    color: $alt-color-darker;
+  }
+}
+
+.btn--ghost {
+  color: $muted-color;
+
+  &:hover,
+  &:focus {
+    color: $text-color;
+  }
+}
