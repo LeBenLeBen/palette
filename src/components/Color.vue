@@ -90,14 +90,12 @@ export default {
 
     swatchStyle() {
       return {
-        backgroundColor: `hsl(${this.hue}, ${this.saturation}%, ${
-          this.lightness
-        }%)`,
+        backgroundColor: this.hsl,
       };
     },
 
     hsl() {
-      return `hsl(${this.hue}, ${this.saturation}, ${this.lightness})`;
+      return `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`;
     },
 
     rgb() {
