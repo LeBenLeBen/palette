@@ -1,13 +1,18 @@
 <template>
   <div>
-    <div class="mrgb-">
+    <div class="mrgb--">
       <strong>{{
         [900, 800, 700, 600, 500, 400, 300, 200, 100, 50][index]
       }}</strong>
     </div>
-    <div class="color mrgb-" :style="swatchStyle"></div>
+    <div class="color mrgb--" :style="swatchStyle"></div>
     <template v-if="mode === 'edit'">
-      <Slider v-model.number="saturation" :min="0" :max="100" class="mrgb--" />
+      <Slider
+        v-model.number="saturation"
+        :min="0"
+        :max="100"
+        class="mrgt- mrgb--"
+      />
       <Slider
         v-model.number="lightness"
         :min="minLightness"
