@@ -11,6 +11,7 @@
   "dependencies": {
     "color-convert": "^2.0.0",
     "color-name-list": "^4.2.0",
+    "color-string": "^1.5.3",
     "core-js": "^2.6.5",
     "kanbasu": "^2.5.0",
     "nearest-color": "^0.4.4",

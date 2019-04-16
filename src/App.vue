@@ -22,7 +22,7 @@
       </ul>
     </header>
     <main class="app-content">
-      <ul class="list-stacked list-stacked--large">
+      <ul v-if="palettes.length" class="list-stacked list-stacked--large">
         <li v-for="(palette, i) in palettes" :key="i">
           <Palette
             :palette.sync="palette"
@@ -31,12 +31,10 @@
           />
         </li>
       </ul>
-      <div v-if="mode === 'edit'" class="mrgt+ text-center">
-        <button type="button" class="btn btn--default" @click="addPalette()">
-          <Icon id="add" :scale="0.75" class="mrgr--" />
-          Add palette
-        </button>
+      <div v-else class="text-large text-center mrgv">
+        No palettes.
       </div>
+      <AddPaletteForm :mode="mode" class="mrgt+" @add="handleFormAdd" />
     </main>
   </div>
 </template>
@@ -46,10 +44,14 @@ import convertColor from 'color-convert';
 
 import { getColorName } from '@/helpers/colors';
 import Palette from '@/components/Palette';
+import AddPaletteForm from '@/components/AddPaletteForm';
 
 export default {
+  name: 'App',
+
   components: {
     Palette,
+    AddPaletteForm,
   },
 
   data() {
@@ -60,12 +62,12 @@ export default {
   },
 
   mounted() {
-    this.addPalette();
+    this.addPalette(50);
     this.addPalette(5);
   },
 
   methods: {
-    addPalette(s = 50) {
+    addPalette(s = Math.floor(Math.random() * 100)) {
       const h = Math.floor(Math.random() * 360);
       const hex = convertColor.hsl.hex(h, s, 50);
 
@@ -90,6 +92,14 @@ export default {
 
     removePalette(index) {
       this.$delete(this.palettes, index);
+    },
+
+    handleFormAdd(palette) {
+      if (palette) {
+        this.palettes.push(palette);
+      } else {
+        this.addPalette();
+      }
     },
   },
 };
