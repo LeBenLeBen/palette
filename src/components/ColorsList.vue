@@ -1,13 +1,7 @@
 <template>
   <ul class="colors-list list">
-    <li v-for="(color, i) in palette.colors" :key="i">
-      <Color
-        :hue="palette.h"
-        :saturation.sync="color.s"
-        :lightness.sync="color.l"
-        :mode="mode"
-        :index="i"
-      />
+    <li v-for="(tint, i) in palette.tints" :key="i">
+      <Color :hue="palette.h" :tint.sync="tint" :mode="mode" :index="i" />
     </li>
   </ul>
 </template>

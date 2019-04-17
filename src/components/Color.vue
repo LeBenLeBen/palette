@@ -8,16 +8,12 @@
     <div class="color mrgb--" :style="swatchStyle"></div>
     <template v-if="mode === 'edit'">
       <Slider
-        v-model.number="saturation"
+        v-model.number="tint.s"
         :min="0"
         :max="100"
         class="mrgt- mrgb--"
       />
-      <Slider
-        v-model.number="lightness"
-        :min="minLightness"
-        :max="maxLightness"
-      />
+      <Slider v-model.number="tint.l" :min="minLightness" :max="maxLightness" />
     </template>
     <ul v-else class="list-stacked list-stacked--tiny">
       <li>
@@ -70,12 +66,8 @@ export default {
       type: Number,
       required: true,
     },
-    saturation: {
-      type: Number,
-      required: true,
-    },
-    lightness: {
-      type: Number,
+    tint: {
+      type: Object,
       required: true,
     },
     mode: {
@@ -100,24 +92,20 @@ export default {
     },
 
     hsl() {
-      return `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`;
+      return `hsl(${this.hue}, ${this.tint.s}%, ${this.tint.l}%)`;
     },
 
     rgb() {
       const [r, g, b] = convertColor.hsl.rgb(
         this.hue,
-        this.saturation,
-        this.lightness
+        this.tint.s,
+        this.tint.l
       );
       return `rgb(${r}, ${g}, ${b})`;
     },
 
     hex() {
-      return `#${convertColor.hsl.hex(
-        this.hue,
-        this.saturation,
-        this.lightness
-      )}`;
+      return `#${convertColor.hsl.hex(this.hue, this.tint.s, this.tint.l)}`;
     },
   },
 };

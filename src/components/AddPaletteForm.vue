@@ -14,7 +14,7 @@
           type="text"
           name="color"
           class="field"
-          placeholder="#, rgb, hsl"
+          placeholder="#, rgb, hsl, …"
           size="15"
         />
       </li>
@@ -72,7 +72,7 @@ export default {
               ? lightnessString[0]
               : lightnessString[1]
           );
-          const colors = [];
+          const tints = [];
 
           // Create the 10 lightness variants
           for (let min = 0; min <= 90; min += 10) {
@@ -85,7 +85,7 @@ export default {
               source = true;
             }
 
-            colors.push({
+            tints.push({
               s,
               l: light,
               source,
@@ -97,7 +97,7 @@ export default {
             name: getColorName(hex),
             h,
             s,
-            colors,
+            tints,
           });
 
           this.sourceColor = '';

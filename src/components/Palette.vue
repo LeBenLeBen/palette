@@ -58,9 +58,9 @@ export default {
 
   watch: {
     'palette.s'() {
-      this.palette.colors = this.palette.colors.map(color => {
-        color.s = this.palette.s;
-        return color;
+      this.palette.tints = this.palette.tints.map(tint => {
+        tint.s = this.palette.s;
+        return tint;
       });
     },
   },

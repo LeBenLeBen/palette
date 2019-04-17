@@ -75,7 +75,7 @@ export default {
         name: getColorName(hex),
         h,
         s,
-        colors: [
+        tints: [
           { s, l: 10 },
           { s, l: 20 },
           { s, l: 30 },
