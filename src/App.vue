@@ -3,21 +3,23 @@
     <header class="app-header flex align-items-center justify-content-between">
       <h1 class="mrgv0">Palette</h1>
       <ul class="list-inline">
-        <li class="btn-group">
-          <button
-            type="button"
-            :class="['btn btn--dark', { active: mode === 'edit' }]"
-            @click="mode = 'edit'"
-          >
-            Edit
-          </button>
-          <button
-            type="button"
-            :class="['btn btn--dark', { active: mode === 'use' }]"
-            @click="mode = 'use'"
-          >
-            Use
-          </button>
+        <li>
+          <div class="btn-group" aria-label="Switch mode">
+            <button
+              type="button"
+              :class="['btn btn--dark', { active: mode === 'edit' }]"
+              @click="mode = 'edit'"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              :class="['btn btn--dark', { active: mode === 'use' }]"
+              @click="mode = 'use'"
+            >
+              Use
+            </button>
+          </div>
         </li>
       </ul>
     </header>
