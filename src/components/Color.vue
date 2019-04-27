@@ -7,13 +7,25 @@
     </div>
     <div class="color mrgb--" :style="swatchStyle"></div>
     <template v-if="mode === 'edit'">
+      <label :for="`color-${uid}-saturation`" class="visible-sr">
+        Saturation
+      </label>
       <Slider
+        :id="`color-${uid}-saturation`"
         v-model.number="tint.s"
         :min="0"
         :max="100"
         class="mrgt- mrgb--"
       />
-      <Slider v-model.number="tint.l" :min="minLightness" :max="maxLightness" />
+      <label :for="`color-${uid}-lightness`" class="visible-sr">
+        Lightness
+      </label>
+      <Slider
+        :id="`color-${uid}-lightness`"
+        v-model.number="tint.l"
+        :min="minLightness"
+        :max="maxLightness"
+      />
     </template>
     <ul v-else class="list-stacked list-stacked--tiny">
       <li>
@@ -49,6 +61,7 @@
 
 <script>
 import convertColor from 'color-convert';
+import nanoid from 'nanoid';
 
 import Slider from '@/components/Slider';
 
@@ -77,6 +90,10 @@ export default {
   },
 
   computed: {
+    uid() {
+      return nanoid();
+    },
+
     minLightness() {
       return this.index === 0 ? 0 : this.index * 10;
     },

@@ -13,8 +13,13 @@
       >
         <li>
           <div class="flex align-items-center">
-            <div class="palette__option-label mrgr--">Hue</div>
+            <label
+              :for="`palette-${uid}-hue`"
+              class="palette__option-label mrgr--"
+              >Hue</label
+            >
             <Slider
+              :id="`palette-${uid}-hue`"
               v-model.number="palette.h"
               :min="0"
               :max="360"
@@ -24,8 +29,17 @@
         </li>
         <li class="mrgt-- lg-mrgt0 lg-mrgl">
           <div class="flex align-items-center">
-            <div class="palette__option-label mrgr--">Saturation</div>
-            <Slider v-model.number="palette.s" :min="0" :max="100" />
+            <label
+              :for="`palette-${uid}-saturation`"
+              class="palette__option-label mrgr--"
+              >Saturation</label
+            >
+            <Slider
+              :id="`palette-${uid}-saturation`"
+              v-model.number="palette.s"
+              :min="0"
+              :max="100"
+            />
           </div>
         </li>
       </ul>
@@ -48,6 +62,8 @@
 </template>
 
 <script>
+import nanoid from 'nanoid';
+
 import ColorsList from '@/components/ColorsList';
 import Slider from '@/components/Slider';
 
@@ -65,6 +81,12 @@ export default {
     mode: {
       type: String,
       required: true,
+    },
+  },
+
+  computed: {
+    uid() {
+      return nanoid();
     },
   },
 
