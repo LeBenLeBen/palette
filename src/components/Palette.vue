@@ -136,6 +136,7 @@ export default {
   min-width: $spacing-unit-small;
   text-transform: capitalize;
 
+  &:hover,
   &:focus {
     outline: none;
     background-color: $alt-color-lighter;
