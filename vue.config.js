@@ -6,7 +6,7 @@ module.exports = {
     loaderOptions: {
       // Loading Kanbasu settings to access it's variables, mixins, etc.
       sass: {
-        data: `
+        prependData: `
           @import '~kanbasu/src/scss/tools/functions';
           @import '~kanbasu/src/scss/tools/mixins';
           @import "@/assets/scss/settings/_settings.scss";
