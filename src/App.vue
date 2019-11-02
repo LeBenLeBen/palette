@@ -1,19 +1,21 @@
 <template>
   <div class="app">
-    <header class="bg-gray-800 text-white px-6 py-4">
+    <header class="bg-gray-800 text-white px-4 md:px-6 py-4">
       <h1 class="text-xl uppercase font-bold tracking-widest">Palette</h1>
     </header>
 
-    <main class="p-6">
+    <main class="p-4 md:p-6">
       <ul v-if="palettes.length">
         <li v-for="(palette, i) in palettes" :key="i" class="mb-6 last:mb-0">
           <Palette :palette.sync="palette" @remove="removePalette(i)" />
         </li>
       </ul>
+
       <div v-else class="text-xl text-center text-gray-500 my-6">
         No palettes.
       </div>
-      <AddPaletteForm class="mt-8" @add="handleFormAdd" />
+
+      <AddPaletteForm class="mt-10" @add="handleFormAdd" />
     </main>
   </div>
 </template>

@@ -1,26 +1,28 @@
 <template>
-  <form action="" class="text-center" @submit.prevent="handleFormSubmit()">
-    <ul class="inline-flex items-center">
-      <li>
-        <label for="color" class="sr-only">Optional color code</label>
-        <input
-          id="color"
-          v-model="sourceColor"
-          type="text"
-          name="color"
-          class="field"
-          placeholder="#, rgb, hsl, …"
-          size="15"
-        />
-      </li>
-      <li class="ml-4">
-        <Btn type="submit" variant="default">
-          <Icon id="add" :scale="0.75" class="mr-2 text-gray-600" />
-          Add palette
-        </Btn>
-      </li>
-    </ul>
-    <div v-if="error" class="mt-4 text-red-700">{{ error }}</div>
+  <form
+    action=""
+    class="flex flex-col sm:flex-row justify-center"
+    @submit.prevent="handleFormSubmit()"
+  >
+    <div>
+      <label for="color" class="sr-only">Optional color code</label>
+      <input
+        id="color"
+        v-model="sourceColor"
+        type="text"
+        name="color"
+        class="field sm:w-auto"
+        placeholder="#, rgb, hsl, …"
+        size="15"
+      />
+      <div v-if="error" class="mt-2 text-sm text-red-700">{{ error }}</div>
+    </div>
+    <div class="mt-3 sm:mt-0 sm:ml-4">
+      <Btn type="submit" variant="default" class="w-full sm:w-auto">
+        <Icon id="add" :scale="0.75" class="mr-2 text-gray-600" />
+        Add palette
+      </Btn>
+    </div>
   </form>
 </template>
 
