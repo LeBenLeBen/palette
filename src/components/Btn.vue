@@ -84,7 +84,9 @@ export default {
 <style lang="postcss" scoped>
 .btn {
   @apply uppercase text-gray-800 font-semibold;
-  transition: all 0.1s ease-out;
+  transition-property: transform box-shadow;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-out;
 
   &:hover,
   &:focus {

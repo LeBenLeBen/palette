@@ -132,7 +132,7 @@ export default {
   &:hover,
   &:focus {
     &::before {
-      @apply block;
+      @apply inline-block;
     }
   }
 

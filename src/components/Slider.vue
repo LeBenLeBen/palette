@@ -54,14 +54,14 @@ export default {
 
   &::-webkit-slider-runnable-track {
     @apply w-full;
-    height: 14px;
+    height: 8px;
 
     @apply bg-gray-300 rounded-full;
   }
 
   &::-moz-range-track {
     @apply w-full;
-    height: 14px;
+    height: 8px;
 
     @apply bg-gray-300 rounded-full;
   }
@@ -74,10 +74,10 @@ export default {
     @apply outline-none;
 
     &::-webkit-slider-thumb {
-      @apply shadow-outline;
+      @apply bg-gray-700;
     }
     &::-moz-range-thumb {
-      @apply shadow-outline;
+      @apply bg-gray-700;
     }
   }
 }
