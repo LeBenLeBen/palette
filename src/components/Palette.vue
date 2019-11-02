@@ -1,21 +1,18 @@
 <template>
-  <div class="palette pdg-">
-    <div class="palette__header mrgb-">
+  <div class="palette p-4">
+    <div class="palette__header mb-3">
       <div class="palette__about">
-        <h2 class="palette__title mrgv0" contenteditable @input="updateName">
+        <h2 class="palette__title" contenteditable @input="updateName">
           {{ palette.name }}
         </h2>
       </div>
 
-      <ul
-        v-if="mode === 'edit'"
-        class="palette__options list flex flex-column lg-flex-row lg-justify-content-center"
-      >
+      <ul class="palette__options flex flex-col lg:flex-row lg:justify-center">
         <li>
-          <div class="flex align-items-center">
+          <div class="flex items-center">
             <label
               :for="`palette-${uid}-hue`"
-              class="palette__option-label mrgr--"
+              class="palette__option-label mr-3"
               >Hue</label
             >
             <Slider
@@ -27,11 +24,11 @@
             />
           </div>
         </li>
-        <li class="mrgt-- lg-mrgt0 lg-mrgl">
-          <div class="flex align-items-center">
+        <li class="mt-2 lg:mt-0 lg:ml-6">
+          <div class="flex items-center">
             <label
               :for="`palette-${uid}-saturation`"
-              class="palette__option-label mrgr--"
+              class="palette__option-label mr-3"
               >Saturation</label
             >
             <Slider
@@ -45,19 +42,18 @@
       </ul>
 
       <div class="palette__actions">
-        <button
-          v-if="mode === 'edit'"
-          type="button"
-          class="btn btn--secondary btn--bare"
-          title="Delete palette"
+        <Btn
+          variant="text"
+          class="hover:text-red-700 focus:text-red-700"
+          title="Remove palette"
           @click="$emit('remove')"
         >
-          <Icon id="bin" :scale="0.75" class="mrgr--" />
-          Delete
-        </button>
+          <Icon id="bin" :scale="0.75" class="mr-1 text-gray-600" />
+          Remove
+        </Btn>
       </div>
     </div>
-    <ColorsList :palette.sync="palette" :mode="mode" />
+    <ColorsList :palette.sync="palette" />
   </div>
 </template>
 
@@ -76,10 +72,6 @@ export default {
   props: {
     palette: {
       type: Object,
-      required: true,
-    },
-    mode: {
-      type: String,
       required: true,
     },
   },
@@ -107,21 +99,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .palette {
-  background-color: white;
-  border-radius: $border-radius-default;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  @apply bg-white rounded shadow-md;
 }
 
 .palette__header {
   display: grid;
   grid-template-areas: 'about actions' 'options options';
   grid-template-columns: 1fr auto;
-  grid-gap: $spacing-unit-small;
+  grid-gap: 10px;
   align-items: center;
 
-  @include media('md') {
+  @media (min-width: 600px) {
     grid-template-areas: 'about options actions';
     grid-template-columns: 1fr 2fr 1fr;
   }
@@ -132,15 +122,14 @@ export default {
 }
 
 .palette__title {
-  display: inline-block;
-  min-width: $spacing-unit-small;
-  text-transform: capitalize;
+  @apply inline-block;
+  @apply capitalize text-2xl;
+  min-width: 10px;
 
   &:hover,
   &:focus {
-    outline: none;
-    background-color: $alt-color-lighter;
-    box-shadow: 0 0 0 2px $alt-color-lighter;
+    @apply outline-none;
+    @apply bg-gray-200;
   }
 }
 
@@ -149,10 +138,7 @@ export default {
 }
 
 .palette__option-label {
-  color: $alt-color-dark;
-  font-size: rem(12px);
-  font-weight: bold;
-  text-transform: uppercase;
+  @apply text-gray-600 text-sm font-bold uppercase;
 }
 
 .palette__actions {

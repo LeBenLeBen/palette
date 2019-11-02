@@ -1,13 +1,8 @@
 <template>
-  <form
-    v-if="mode === 'edit'"
-    action=""
-    class="text-center"
-    @submit.prevent="handleFormSubmit()"
-  >
-    <ul class="list-inline list-inline--center">
+  <form action="" class="text-center" @submit.prevent="handleFormSubmit()">
+    <ul class="inline-flex items-center">
       <li>
-        <label for="color" class="visible-sr">Optional color code</label>
+        <label for="color" class="sr-only">Optional color code</label>
         <input
           id="color"
           v-model="sourceColor"
@@ -18,14 +13,14 @@
           size="15"
         />
       </li>
-      <li>
-        <button class="btn btn--default">
-          <Icon id="add" :scale="0.75" class="mrgr--" />
+      <li class="ml-4">
+        <Btn type="submit" variant="default">
+          <Icon id="add" :scale="0.75" class="mr-2 text-gray-600" />
           Add palette
-        </button>
+        </Btn>
       </li>
     </ul>
-    <div v-if="error" class="mrgt text-danger">{{ error }}</div>
+    <div v-if="error" class="mt-4 text-red-700">{{ error }}</div>
   </form>
 </template>
 
@@ -36,13 +31,6 @@ import colorString from 'color-string';
 import { getColorName } from '@/helpers/colors';
 
 export default {
-  props: {
-    mode: {
-      type: String,
-      required: true,
-    },
-  },
-
   data() {
     return {
       sourceColor: '',

@@ -1,42 +1,19 @@
 <template>
   <div class="app">
-    <header class="app-header flex align-items-center justify-content-between">
-      <h1 class="mrgv0">Palette</h1>
-      <ul class="list-inline">
-        <li>
-          <div class="btn-group" aria-label="Switch mode">
-            <button
-              type="button"
-              :class="['btn btn--dark', { active: mode === 'edit' }]"
-              @click="mode = 'edit'"
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              :class="['btn btn--dark', { active: mode === 'use' }]"
-              @click="mode = 'use'"
-            >
-              Use
-            </button>
-          </div>
-        </li>
-      </ul>
+    <header class="bg-gray-800 text-white px-6 py-4">
+      <h1 class="text-xl uppercase font-bold tracking-widest">Palette</h1>
     </header>
-    <main class="app-content">
-      <ul v-if="palettes.length" class="list-stacked list-stacked--large">
-        <li v-for="(palette, i) in palettes" :key="i">
-          <Palette
-            :palette.sync="palette"
-            :mode="mode"
-            @remove="removePalette(i)"
-          />
+
+    <main class="p-6">
+      <ul v-if="palettes.length">
+        <li v-for="(palette, i) in palettes" :key="i" class="mb-6 last:mb-0">
+          <Palette :palette.sync="palette" @remove="removePalette(i)" />
         </li>
       </ul>
-      <div v-else class="text-large text-center mrgv">
+      <div v-else class="text-xl text-center text-gray-500 my-6">
         No palettes.
       </div>
-      <AddPaletteForm :mode="mode" class="mrgt+" @add="handleFormAdd" />
+      <AddPaletteForm class="mt-8" @add="handleFormAdd" />
     </main>
   </div>
 </template>
@@ -58,7 +35,6 @@ export default {
 
   data() {
     return {
-      mode: 'edit',
       palettes: [],
     };
   },
@@ -78,15 +54,14 @@ export default {
         h,
         s,
         tints: [
-          { s, l: 10 },
-          { s, l: 20 },
-          { s, l: 30 },
-          { s, l: 40 },
-          { s, l: 50 },
-          { s, l: 60 },
-          { s, l: 70 },
-          { s, l: 80 },
-          { s, l: 90 },
+          { s, l: 15 },
+          { s, l: 25 },
+          { s, l: 35 },
+          { s, l: 45 },
+          { s, l: 55 },
+          { s, l: 65 },
+          { s, l: 75 },
+          { s, l: 85 },
           { s, l: 95 },
         ],
       });
@@ -107,24 +82,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-body {
-  background-color: $alt-color-lighter;
-}
-
+<style lang="postcss">
 .app {
   min-height: 100vh;
-}
-
-.app-header {
-  padding: $spacing-unit-small $spacing-unit-default;
-
-  color: white;
-
-  background-color: $alt-color-darker;
-}
-
-.app-content {
-  padding: $spacing-unit-default;
 }
 </style>

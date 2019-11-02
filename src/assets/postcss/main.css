@@ -1,0 +1,7 @@
+@tailwind base;
+
+@tailwind components;
+
+@import './components/field.css';
+
+@tailwind utilities;

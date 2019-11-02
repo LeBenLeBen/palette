@@ -1,5 +1,9 @@
 module.exports = {
   plugins: {
-    autoprefixer: {}
-  }
+    precss: {},
+    'postcss-import': {},
+    tailwindcss: {},
+    'vue-cli-plugin-tailwind/purgecss': {},
+    autoprefixer: {},
+  },
 };

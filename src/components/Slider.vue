@@ -24,75 +24,60 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .slider {
-  -webkit-appearance: none;
-
-  display: block;
-  width: 100%;
-  padding: 0;
-
-  background: transparent;
+  @apply appearance-none block w-full p-0 bg-transparent;
 
   &,
   * {
-    cursor: pointer;
+    @apply cursor-pointer;
   }
 
   &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    display: block;
+    @apply appearance-none block;
     width: 18px;
     height: 18px;
     margin-top: -2px;
 
-    position: relative;
+    @apply relative;
 
-    background-color: $alt-color-light;
-    border: 2px solid white;
-    border-radius: 50%;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+    @apply bg-gray-500 border-2 border-white rounded-full shadow;
   }
 
   &::-moz-range-thumb {
-    display: block;
+    @apply block;
     width: 14px;
     height: 14px;
 
-    background-color: $alt-color-light;
-    border: 2px solid white;
-    border-radius: 50%;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+    @apply bg-gray-500 border-2 border-white rounded-full shadow;
   }
 
   &::-webkit-slider-runnable-track {
-    width: 100%;
+    @apply w-full;
     height: 14px;
 
-    background: $alt-color-lighter;
-    border-radius: 10px;
+    @apply bg-gray-300 rounded-full;
   }
 
   &::-moz-range-track {
-    width: 100%;
+    @apply w-full;
     height: 14px;
 
-    background: $alt-color-lighter;
-    border-radius: 10px;
+    @apply bg-gray-300 rounded-full;
   }
 
   &::-moz-focus-outer {
-    border: 0;
+    @apply border-0;
   }
 
   &:focus {
-    outline: none;
+    @apply outline-none;
 
     &::-webkit-slider-thumb {
-      box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.15);
+      @apply shadow-outline;
     }
     &::-moz-range-thumb {
-      box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.15);
+      @apply shadow-outline;
     }
   }
 }

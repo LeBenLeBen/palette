@@ -41,17 +41,19 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="postcss" scoped>
 .icon {
   display: inline-block;
   vertical-align: middle;
   pointer-events: none;
 
   position: relative;
-  top: -0.1em; // Properly align with text
+  /* Properly align with text */
+  top: -0.1em;
 
   fill: currentColor;
-  will-change: transform; // Prevent cropped/blurry icons on Firefox
+  /* Prevent cropped/blurry icons on Firefox */
+  will-change: transform;
 }
 </style>
 

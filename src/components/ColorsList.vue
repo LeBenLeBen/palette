@@ -1,7 +1,7 @@
 <template>
   <ul class="colors-list list">
     <li v-for="(tint, i) in palette.tints" :key="i">
-      <Color :hue="palette.h" :tint.sync="tint" :mode="mode" :index="i" />
+      <Color :hue="palette.h" :tint.sync="tint" :index="i" />
     </li>
   </ul>
 </template>
@@ -19,18 +19,14 @@ export default {
       type: Object,
       required: true,
     },
-    mode: {
-      type: String,
-      required: true,
-    },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="postcss" scoped>
 .colors-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  grid-gap: $spacing-unit-small;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-gap: 12px;
 }
 </style>

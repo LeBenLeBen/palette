@@ -3,17 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "./deploy.sh"
+    "deploy": "./deploy.sh",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "color-convert": "^2.0.1",
     "color-name-list": "^4.11.0",
     "color-string": "^1.5.3",
     "core-js": "^3.3.6",
-    "kanbasu": "^2.5.0",
     "nanoid": "^2.1.6",
     "nearest-color": "^0.4.4",
     "v-clipboard": "^2.2.2",
@@ -29,9 +28,10 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.2.3",
     "fibers": "^4.0.2",
+    "postcss-import": "^12.0.1",
+    "precss": "^4.0.0",
     "prettier": "^1.18.2",
-    "sass": "^1.23.3",
-    "sass-loader": "^8.0.0",
+    "vue-cli-plugin-tailwind": "^1.1.0",
     "vue-template-compiler": "^2.6.10"
   }
 }

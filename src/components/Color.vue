@@ -1,61 +1,38 @@
 <template>
   <div>
-    <div class="mrgb--">
-      <strong>{{
-        [900, 800, 700, 600, 500, 400, 300, 200, 100, 50][index]
-      }}</strong>
+    <div class="text-sm font-bold mb-2">
+      {{ [900, 800, 700, 600, 500, 400, 300, 200, 100][index] }}
     </div>
-    <div class="color mrgb--" :style="swatchStyle"></div>
-    <template v-if="mode === 'edit'">
-      <label :for="`color-${uid}-saturation`" class="visible-sr">
-        Saturation
-      </label>
-      <Slider
-        :id="`color-${uid}-saturation`"
-        v-model.number="tint.s"
-        :min="0"
-        :max="100"
-        class="mrgt- mrgb--"
-      />
-      <label :for="`color-${uid}-lightness`" class="visible-sr">
-        Lightness
-      </label>
-      <Slider
-        :id="`color-${uid}-lightness`"
-        v-model.number="tint.l"
-        :min="minLightness"
-        :max="maxLightness"
-      />
-    </template>
-    <ul v-else class="list-stacked list-stacked--tiny">
-      <li>
-        <button
-          v-clipboard="hsl"
-          type="button"
-          class="btn btn--bare btn--ghost"
-        >
-          {{ hsl }}
-        </button>
-      </li>
-      <li>
-        <button
-          v-clipboard="rgb"
-          type="button"
-          class="btn btn--bare btn--ghost"
-        >
-          {{ rgb }}
-        </button>
-      </li>
-      <li>
-        <button
-          v-clipboard="hex"
-          type="button"
-          class="btn btn--bare btn--ghost"
-        >
-          {{ hex }}
-        </button>
-      </li>
-    </ul>
+
+    <Btn
+      v-clipboard="hex"
+      class="color"
+      :style="swatchStyle"
+      aria-label="Copy color to clipboard"
+      block
+      @click="handleCopy"
+    />
+
+    <label :for="`color-${uid}-saturation`" class="sr-only">
+      Saturation
+    </label>
+    <Slider
+      :id="`color-${uid}-saturation`"
+      v-model.number="tint.s"
+      :min="0"
+      :max="100"
+      class="mt-3 mb-2"
+    />
+
+    <label :for="`color-${uid}-lightness`" class="sr-only">
+      Lightness
+    </label>
+    <Slider
+      :id="`color-${uid}-lightness`"
+      v-model.number="tint.l"
+      :min="minLightness"
+      :max="maxLightness"
+    />
   </div>
 </template>
 
@@ -83,10 +60,12 @@ export default {
       type: Object,
       required: true,
     },
-    mode: {
-      type: String,
-      required: true,
-    },
+  },
+
+  data() {
+    return {
+      text: 'Copy',
+    };
   },
 
   computed: {
@@ -104,36 +83,68 @@ export default {
 
     swatchStyle() {
       return {
-        backgroundColor: this.hsl,
+        backgroundColor: this.hex,
+        '--text': `'${this.text}'`,
       };
-    },
-
-    hsl() {
-      return `hsl(${this.hue}, ${this.tint.s}%, ${this.tint.l}%)`;
-    },
-
-    rgb() {
-      const [r, g, b] = convertColor.hsl.rgb(
-        this.hue,
-        this.tint.s,
-        this.tint.l
-      );
-      return `rgb(${r}, ${g}, ${b})`;
     },
 
     hex() {
       return `#${convertColor.hsl.hex(this.hue, this.tint.s, this.tint.l)}`;
     },
   },
+
+  beforeDestroy() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+  },
+
+  methods: {
+    handleCopy() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.text = 'Copied!';
+      this.timeout = setTimeout(() => {
+        this.text = 'Copy';
+      }, 2000);
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .color {
-  overflow: hidden;
-  padding-top: 50%;
+  @apply flex flex-col items-center justify-center;
+  @apply h-20 mb-2 overflow-hidden;
+  @apply rounded shadow-inner;
 
-  border-radius: $border-radius-default;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+  &::before {
+    content: var(--text);
+    @apply hidden;
+    @apply py-1 px-2;
+    @apply text-white text-xs;
+
+    background-color: rgba(0, 0, 0, 0.3);
+    @apply rounded;
+  }
+
+  &:hover,
+  &:focus {
+    &::before {
+      @apply block;
+    }
+  }
+
+  &:focus-visible {
+    &::before {
+      content: 'Copied!';
+    }
+  }
+}
+
+.color__action {
+  @apply hidden;
+  @apply absolute;
 }
 </style>
