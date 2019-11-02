@@ -37,11 +37,11 @@ export default {
     @apply appearance-none block;
     width: 18px;
     height: 18px;
-    margin-top: -2px;
+    margin-top: -5px;
 
     @apply relative;
 
-    @apply bg-gray-500 border-2 border-white rounded-full shadow;
+    @apply bg-gray-500 border-2 border-solid border-white rounded-full shadow;
   }
 
   &::-moz-range-thumb {
@@ -49,7 +49,7 @@ export default {
     width: 14px;
     height: 14px;
 
-    @apply bg-gray-500 border-2 border-white rounded-full shadow;
+    @apply bg-gray-500 border-2 border-solid border-white rounded-full shadow;
   }
 
   &::-webkit-slider-runnable-track {
