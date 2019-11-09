@@ -20,7 +20,7 @@
     <div class="mt-3 sm:mt-0 sm:ml-4">
       <Btn type="submit" variant="default" class="w-full sm:w-auto">
         <Icon id="add" :scale="0.75" class="mr-2 text-gray-600" />
-        Add palette
+        Add color
       </Btn>
     </div>
   </form>
