@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-sm font-bold mb-2">
-      {{ [900, 800, 700, 600, 500, 400, 300, 200, 100][index] }}
+      {{ number }}
     </div>
 
     <Btn
@@ -73,12 +73,16 @@ export default {
       return nanoid();
     },
 
+    number() {
+      return [100, 200, 300, 400, 500, 600, 700, 800, 900][this.index];
+    },
+
     minLightness() {
-      return this.index * 10 + 10;
+      return 100 - (this.index * 10 + 10);
     },
 
     maxLightness() {
-      return this.index * 10 + 20;
+      return 100 - this.index * 10;
     },
 
     swatchStyle() {
@@ -118,6 +122,7 @@ export default {
   @apply flex flex-col items-center justify-center;
   @apply h-20 mb-2 overflow-hidden;
   @apply rounded shadow-inner;
+  transition: none;
 
   &::before {
     content: var(--text);

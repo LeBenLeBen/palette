@@ -6,5 +6,11 @@ module.exports = {
   variants: {
     margin: ['responsive', 'last'],
   },
-  plugins: [],
+  plugins: [
+    function({ addBase }) {
+      addBase({
+        a: { textDecoration: 'underline' },
+      });
+    },
+  ],
 };

@@ -1,21 +1,59 @@
 <template>
-  <div class="app">
-    <header class="bg-gray-800 text-white px-4 md:px-6 py-4">
+  <div class="app min-h-screen">
+    <header
+      class="flex justify-between items-center px-4 md:px-6 py-4 bg-gray-800 text-white"
+    >
       <h1 class="text-xl uppercase font-bold tracking-widest">Palette</h1>
+      <div class="btn-group -my-2">
+        <Btn
+          variant="primary"
+          size="small"
+          :class="{ active: !exporting }"
+          @click="exporting = false"
+        >
+          <Icon
+            id="pencil"
+            :scale="0.75"
+            class="hidden sm:inline-block text-gray-400 mr-2"
+          />
+          Edit
+        </Btn>
+        <Btn
+          variant="primary"
+          size="small"
+          :class="{ active: exporting }"
+          @click="exporting = true"
+        >
+          <Icon
+            id="share"
+            :scale="0.75"
+            class="hidden sm:inline-block text-gray-400 mr-2"
+          />
+          Export
+        </Btn>
+      </div>
     </header>
 
-    <main class="p-4 md:p-6">
-      <ul v-if="palettes.length">
-        <li v-for="(palette, i) in palettes" :key="i" class="mb-6 last:mb-0">
-          <Palette :palette.sync="palette" @remove="removePalette(i)" />
-        </li>
-      </ul>
+    <main class="p-4 md:px-6 md:py-8">
+      <Exporter
+        v-if="exporting"
+        :export-type-id="exportTypeId"
+        :palettes="palettes"
+        @setExportTypeId="setExportTypeId"
+      />
+      <template v-else>
+        <ul v-if="palettes.length">
+          <li v-for="(palette, i) in palettes" :key="i" class="mb-8 last:mb-0">
+            <Palette :palette.sync="palette" @remove="removePalette(i)" />
+          </li>
+        </ul>
 
-      <div v-else class="text-xl text-center text-gray-500 my-6">
-        No palettes.
-      </div>
+        <div v-else class="text-xl text-center text-gray-500 my-6">
+          No colors.
+        </div>
 
-      <AddPaletteForm class="mt-10" @add="handleFormAdd" />
+        <AddPaletteForm class="mt-10" @add="handleFormAdd" />
+      </template>
     </main>
   </div>
 </template>
@@ -24,6 +62,7 @@
 import convertColor from 'color-convert';
 
 import { getColorName } from '@/helpers/colors';
+import Exporter from '@/components/Exporter';
 import Palette from '@/components/Palette';
 import AddPaletteForm from '@/components/AddPaletteForm';
 
@@ -31,6 +70,7 @@ export default {
   name: 'App',
 
   components: {
+    Exporter,
     Palette,
     AddPaletteForm,
   },
@@ -38,6 +78,8 @@ export default {
   data() {
     return {
       palettes: [],
+      exporting: false,
+      exportTypeId: localStorage.getItem('exportTypeId') || 'css',
     };
   },
 
@@ -56,15 +98,15 @@ export default {
         h,
         s,
         tints: [
-          { s, l: 15 },
-          { s, l: 25 },
-          { s, l: 35 },
-          { s, l: 45 },
-          { s, l: 55 },
-          { s, l: 65 },
-          { s, l: 75 },
-          { s, l: 85 },
           { s, l: 95 },
+          { s, l: 85 },
+          { s, l: 75 },
+          { s, l: 65 },
+          { s, l: 55 },
+          { s, l: 45 },
+          { s, l: 35 },
+          { s, l: 25 },
+          { s, l: 15 },
         ],
       });
     },
@@ -80,12 +122,11 @@ export default {
         this.addPalette();
       }
     },
+
+    setExportTypeId(id) {
+      this.exportTypeId = id;
+      localStorage.setItem('exportTypeId', id);
+    },
   },
 };
 </script>
-
-<style lang="postcss">
-.app {
-  min-height: 100vh;
-}
-</style>

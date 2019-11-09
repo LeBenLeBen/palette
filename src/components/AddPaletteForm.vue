@@ -65,20 +65,11 @@ export default {
           const tints = [];
 
           // Create the 9 lightness variants
-          for (let min = 15; min <= 95; min += 10) {
-            const max = min + 10;
+          for (let min = 90; min >= 10; min -= 10) {
             let light = min + groupLightness;
-            let source = false;
-
-            if (l >= min && l < max) {
-              light = l;
-              source = true;
-            }
-
             tints.push({
               s,
               l: light,
-              source,
             });
           }
 

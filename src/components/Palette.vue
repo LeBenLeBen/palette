@@ -1,5 +1,5 @@
 <template>
-  <div class="palette p-4">
+  <div class="box p-4">
     <div class="palette__header mb-3">
       <div class="palette__about">
         <h2 class="palette__title" contenteditable @input="updateName">
@@ -43,7 +43,7 @@
 
       <div class="palette__actions">
         <Btn
-          variant="text"
+          variant="bare"
           class="hover:text-red-700 focus:text-red-700"
           title="Remove palette"
           @click="$emit('remove')"
@@ -101,7 +101,6 @@ export default {
 
 <style lang="postcss" scoped>
 .palette {
-  @apply bg-white rounded shadow-md;
 }
 
 .palette__header {

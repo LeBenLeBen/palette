@@ -1,0 +1,14 @@
+/*----------------------------------------*\
+  BUTTONS GROUP
+\*----------------------------------------*/
+
+.btn-group {
+  display: flex;
+
+  > .btn:not(:first-child) {
+    @apply rounded-l-none;
+  }
+  > .btn:not(:last-child) {
+    @apply rounded-r-none;
+  }
+}

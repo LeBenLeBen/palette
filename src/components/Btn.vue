@@ -83,37 +83,59 @@ export default {
 
 <style lang="postcss" scoped>
 .btn {
+  @apply inline-block;
+  @apply py-3 px-5;
+
   @apply uppercase text-gray-800 font-semibold;
-  transition-property: transform box-shadow;
+  text-decoration: none;
+
+  transition-property: all;
   transition-duration: 0.1s;
   transition-timing-function: ease-out;
-
-  &:hover,
-  &:focus {
-    @apply text-gray-600;
-    transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-.btn--default {
-  @apply py-3 px-5;
-  @apply uppercase text-gray-800 font-semibold;
-  @apply bg-white shadow border border-transparent rounded;
-
   will-change: transform;
 
   &:hover,
   &:focus {
-    @apply text-gray-800;
+    @apply text-gray-600;
+  }
+}
+
+.btn--small {
+  @apply py-2 px-4;
+  @apply text-sm;
+}
+
+.btn--default {
+  @apply bg-white shadow border border-transparent rounded;
+
+  &:hover,
+  &:focus {
     @apply shadow-md;
   }
 
   &:active {
     @apply shadow-none;
   }
+}
+
+.btn--primary {
+  @apply text-white;
+  @apply rounded bg-gray-700 shadow;
+
+  &:hover,
+  &:focus {
+    @apply text-white;
+    @apply bg-gray-600;
+  }
+
+  &:active,
+  &.active {
+    @apply bg-gray-900;
+    @apply shadow-inner;
+  }
+}
+
+.btn--bare {
+  @apply p-0;
 }
 </style>

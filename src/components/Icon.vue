@@ -49,18 +49,10 @@ export default {
 
   position: relative;
   /* Properly align with text */
-  top: -0.1em;
+  top: -0.135em;
 
   fill: currentColor;
   /* Prevent cropped/blurry icons on Firefox */
   will-change: transform;
 }
 </style>
-
-<docs>
-This component is available globally, you don't have to have to import it.
-
-```vue
-<Icon id="bus" :scale="2" />
-```
-</docs>
