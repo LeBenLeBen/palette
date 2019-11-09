@@ -74,11 +74,11 @@ export default {
     },
 
     minLightness() {
-      return this.index === 0 ? 0 : this.index * 10;
+      return this.index * 10 + 10;
     },
 
     maxLightness() {
-      return this.index === 0 ? 10 : this.index * 10 + 10;
+      return this.index * 10 + 20;
     },
 
     swatchStyle() {
