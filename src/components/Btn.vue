@@ -86,6 +86,7 @@ export default {
   @apply inline-block;
   @apply py-3 px-5;
 
+  @apply text-sm;
   @apply uppercase text-gray-800 font-semibold;
   text-decoration: none;
 
@@ -102,7 +103,6 @@ export default {
 
 .btn--small {
   @apply py-2 px-4;
-  @apply text-sm;
 }
 
 .btn--default {
