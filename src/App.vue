@@ -1,5 +1,5 @@
 <template>
-  <div class="app min-h-screen">
+  <div class="app min-h-screen flex flex-col">
     <header
       class="flex justify-between items-center px-4 md:px-6 py-4 bg-gray-800 text-white"
     >
@@ -34,7 +34,7 @@
       </div>
     </header>
 
-    <main class="p-4 md:px-6 md:py-8">
+    <main class="flex-grow p-4 md:px-6 md:py-8">
       <div v-if="error" class="text-center mb-6">
         <span
           class="inline-block px-4 py-3 bg-red-200 text-red-700 font-bold rounded cursor-pointer"
@@ -65,6 +65,18 @@
         <AddPaletteForm class="mt-10" @add="handleFormAdd" />
       </template>
     </main>
+
+    <footer
+      class="flex flex-col md:flex-row justify-between items-center px-4 md:px-6 py-6 text-gray-700 bg-gray-300"
+    >
+      <div class="mb-2 md:mb-0 md:mr-2">
+        An app by <a href="http://benoitburgener.ch/">LeBen</a>
+      </div>
+      <div>
+        Browse <a href="https://github.com/LeBenLeBen/palette">the code</a> on
+        GitHub
+      </div>
+    </footer>
   </div>
 </template>
 
