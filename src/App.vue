@@ -35,6 +35,16 @@
     </header>
 
     <main class="p-4 md:px-6 md:py-8">
+      <div v-if="error" class="text-center mb-6">
+        <span
+          class="inline-block px-4 py-3 bg-red-200 text-red-700 font-bold rounded cursor-pointer"
+          tabindex="0"
+          @click="error = null"
+        >
+          {{ error }}
+        </span>
+      </div>
+
       <Exporter
         v-if="exporting"
         :export-type-id="exportTypeId"
@@ -60,6 +70,8 @@
 
 <script>
 import convertColor from 'color-convert';
+import queryString from 'query-string';
+import LZString from 'lz-string';
 
 import { getColorName } from '@/helpers/colors';
 import Exporter from '@/components/Exporter';
@@ -76,16 +88,60 @@ export default {
   },
 
   data() {
+    const query = queryString.parse(location.search);
+    let palettes = [];
+    let error = null;
+
+    // Restore potential data from the URL
+    if (query.c) {
+      try {
+        const config = JSON.parse(
+          LZString.decompressFromEncodedURIComponent(query.c)
+        );
+
+        if (config.version === parseInt(process.env.VUE_APP_SCHEMA_VERSION)) {
+          palettes = config.palettes;
+        } else {
+          error = 'Data schema version is too old and could not be restored.';
+        }
+      } catch (e) {
+        error = 'Data are corrupted, the palettes could not be restored.';
+      }
+    }
+
     return {
-      palettes: [],
+      palettes,
+      error,
       exporting: false,
       exportTypeId: localStorage.getItem('exportTypeId') || 'css',
     };
   },
 
+  watch: {
+    // Whenever the palettes change, update the URL with the new data
+    palettes: {
+      handler(value) {
+        const json = JSON.stringify({
+          version: parseInt(process.env.VUE_APP_SCHEMA_VERSION),
+          palettes: value,
+        });
+        const c = LZString.compressToEncodedURIComponent(json);
+
+        history.replaceState(
+          value,
+          '',
+          value.length ? `?c=${c}` : window.location.origin
+        );
+      },
+      deep: true,
+    },
+  },
+
   mounted() {
-    this.addPalette(50);
-    this.addPalette(5);
+    if (!this.palettes.length) {
+      this.addPalette(50);
+      this.addPalette(5);
+    }
   },
 
   methods: {
