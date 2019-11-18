@@ -142,7 +142,9 @@ export default {
         history.replaceState(
           value,
           '',
-          value.length ? `?c=${c}` : window.location.origin
+          value.length
+            ? `?c=${c}`
+            : `${window.location.origin}${window.location.pathname}`
         );
       },
       deep: true,
