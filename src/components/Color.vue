@@ -5,7 +5,7 @@
     </div>
 
     <Btn
-      v-clipboard="hex"
+      v-clipboard="() => hex"
       class="color"
       :style="swatchStyle"
       aria-label="Copy color to clipboard"
