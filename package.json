@@ -14,7 +14,7 @@
     "color-string": "^1.5.5",
     "core-js": "^3.3.6",
     "lz-string": "^1.4.4",
-    "nanoid": "^2.1.6",
+    "nanoid": "^3.1.31",
     "nearest-color": "^0.4.4",
     "query-string": "^6.9.0",
     "v-clipboard": "^2.2.2",
