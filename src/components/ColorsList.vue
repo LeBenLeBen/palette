@@ -1,29 +1,29 @@
 <template>
   <ul class="colors-list list">
     <li v-for="(tint, i) in palette.tints" :key="i">
-      <Color :hue="palette.h" :tint.sync="tint" :index="i" />
+      <Color
+        :tint="tint"
+        :hue="palette.h"
+        :index="i"
+        @update:saturation="(s) => (tint.s = s)"
+        @update:lightness="(l) => (tint.l = l)"
+      />
     </li>
   </ul>
 </template>
 
-<script>
-import Color from '@/components/Color';
+<script setup>
+import Color from '@/components/Color.vue';
 
-export default {
-  components: {
-    Color,
+defineProps({
+  palette: {
+    type: Object,
+    required: true,
   },
-
-  props: {
-    palette: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+});
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .colors-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));

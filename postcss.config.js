@@ -1,9 +1,7 @@
 module.exports = {
-  plugins: {
-    precss: {},
-    'postcss-import': {},
-    tailwindcss: {},
-    'vue-cli-plugin-tailwind/purgecss': {},
-    autoprefixer: {},
-  },
+  plugins: [
+    require('tailwindcss/nesting'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
 };

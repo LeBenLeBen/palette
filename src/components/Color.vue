@@ -4,120 +4,89 @@
       {{ number }}
     </div>
 
-    <Btn
-      v-clipboard="() => hex"
-      class="color"
+    <CBtn
+      class="color w-full"
       :style="swatchStyle"
       aria-label="Copy color to clipboard"
-      block
-      @click="handleCopy"
+      @click="copy()"
     />
 
-    <label :for="`color-${uid}-saturation`" class="sr-only">
-      Saturation
-    </label>
-    <Slider
-      :id="`color-${uid}-saturation`"
-      v-model.number="tint.s"
-      :min="0"
-      :max="100"
-      class="mt-3 mb-2"
-    />
+    <CFormGroup v-slot="{ ids }">
+      <CLabel class="sr-only">Saturation</CLabel>
+      <Slider
+        :id="ids.field"
+        :model-value="tint.s"
+        :min="0"
+        :max="100"
+        class="mt-3 mb-2"
+        @update:model-value="(s) => $emit('update:saturation', parseInt(s))"
+      />
+    </CFormGroup>
 
-    <label :for="`color-${uid}-lightness`" class="sr-only">
-      Lightness
-    </label>
-    <Slider
-      :id="`color-${uid}-lightness`"
-      v-model.number="tint.l"
-      :min="minLightness"
-      :max="maxLightness"
-    />
+    <CFormGroup v-slot="{ ids }">
+      <CLabel class="sr-only">Lightness</CLabel>
+      <Slider
+        :id="ids.field"
+        :model-value="tint.l"
+        :min="minLightness"
+        :max="maxLightness"
+        @update:model-value="(l) => $emit('update:lightness', parseInt(l))"
+      />
+    </CFormGroup>
   </div>
 </template>
 
-<script>
-import convertColor from 'color-convert';
-import nanoid from 'nanoid';
+<script setup>
+import { computed } from 'vue';
+import { useClipboard } from '@vueuse/core';
 
-import Slider from '@/components/Slider';
+import { targetColorMode } from '@/store';
 
-export default {
-  components: {
-    Slider,
+import { convertToCSSColor } from '@/helpers/colors';
+
+import Slider from '@/components/Slider.vue';
+
+const props = defineProps({
+  index: {
+    type: Number,
+    required: true,
   },
-
-  props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-    hue: {
-      type: Number,
-      required: true,
-    },
-    tint: {
-      type: Object,
-      required: true,
-    },
+  hue: {
+    type: Number,
+    required: true,
   },
-
-  data() {
-    return {
-      text: 'Copy',
-    };
+  tint: {
+    type: Object,
+    required: true,
   },
+});
 
-  computed: {
-    uid() {
-      return nanoid();
-    },
+defineEmits(['update:saturation', 'update:lightness']);
 
-    number() {
-      return [100, 200, 300, 400, 500, 600, 700, 800, 900][this.index];
-    },
-
-    minLightness() {
-      return 100 - (this.index * 10 + 10);
-    },
-
-    maxLightness() {
-      return 100 - this.index * 10;
-    },
-
-    swatchStyle() {
-      return {
-        backgroundColor: this.hex,
-        '--text': `'${this.text}'`,
-      };
-    },
-
-    hex() {
-      return `#${convertColor.hsl.hex(this.hue, this.tint.s, this.tint.l)}`;
-    },
-  },
-
-  beforeDestroy() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-  },
-
-  methods: {
-    handleCopy() {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      this.text = 'Copied!';
-      this.timeout = setTimeout(() => {
-        this.text = 'Copy';
-      }, 2000);
-    },
-  },
-};
+const hex = computed(() =>
+  convertToCSSColor(
+    { h: props.hue, s: props.tint.s, l: props.tint.l },
+    targetColorMode.value
+  )
+);
+const { copy, copied } = useClipboard({ source: hex });
+const text = computed(() => (copied.value ? 'Copied!' : 'Copy'));
+const number = computed(
+  () => [900, 800, 700, 600, 500, 400, 300, 200, 100, 50][props.index]
+);
+const minLightness = computed(
+  () => [10, 20, 30, 40, 50, 60, 70, 80, 90, 95][props.index]
+);
+const maxLightness = computed(
+  () => [20, 30, 40, 50, 60, 70, 80, 90, 95, 100][props.index]
+);
+const swatchStyle = computed(() => ({
+  backgroundColor: hex.value,
+  '--text': `'${text.value}'`,
+}));
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .color {
   @apply flex flex-col items-center justify-center;
   @apply h-20 mb-2 overflow-hidden;
@@ -140,16 +109,5 @@ export default {
       @apply inline-block;
     }
   }
-
-  &:focus-visible {
-    &::before {
-      content: 'Copied!';
-    }
-  }
-}
-
-.color__action {
-  @apply hidden;
-  @apply absolute;
 }
 </style>

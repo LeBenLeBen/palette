@@ -1,94 +1,104 @@
 <template>
   <form
-    action=""
     class="flex flex-col sm:flex-row justify-center"
-    @submit.prevent="handleFormSubmit()"
+    @submit.prevent="handleFormSubmit"
   >
-    <div>
-      <label for="color" class="sr-only">Optional color code</label>
-      <input
+    <CFormGroup v-slot="{ ids }" as="div">
+      <CLabel class="sr-only">Optional color code</CLabel>
+      <CTextField
         id="color"
         v-model="sourceColor"
         type="text"
         name="color"
-        class="field sm:w-auto"
+        class="sm:w-auto"
         placeholder="#, rgb, hsl, …"
         size="15"
+        :aria-describedby="ids.error"
       />
-      <div v-if="error" class="mt-2 text-sm text-red-700">{{ error }}</div>
-    </div>
+      <div v-if="error" :id="ids.error" class="mt-2 text-sm text-red-700">
+        {{ error }}
+      </div>
+    </CFormGroup>
+
     <div class="mt-3 sm:mt-0 sm:ml-4">
-      <Btn type="submit" variant="default" class="w-full sm:w-auto">
-        <Icon id="add" :scale="0.75" class="mr-2 text-gray-600" />
+      <CBtn type="submit" variant="default medium" class="w-full sm:w-auto">
+        <CIcon id="add" class="mr-2 -my-1 text-gray-600" />
         Add color
-      </Btn>
+      </CBtn>
     </div>
   </form>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import convertColor from 'color-convert';
 import colorString from 'color-string';
 
+import { addPalette, palettes } from '@/store';
+
 import { getColorName } from '@/helpers/colors';
 
-export default {
-  data() {
-    return {
-      sourceColor: '',
-      error: '',
-    };
-  },
+const sourceColor = ref('');
+const error = ref('');
 
-  methods: {
-    handleFormSubmit() {
-      this.error = '';
+const handleFormSubmit = () => {
+  error.value = '';
 
-      if (this.sourceColor) {
-        // Try to parse the given color
-        const color = colorString.get(this.sourceColor);
+  if (sourceColor.value) {
+    // Try to parse the given color
+    const color = colorString.get(sourceColor.value);
 
-        if (color) {
-          // Convert given color to HSL if necessary
-          const [h, s, l] =
-            color.model === 'hsl'
-              ? color.value
-              : convertColor[color.model].hsl(color.value);
+    if (color) {
+      // Convert given color to HSL if necessary
+      const [h, s, l] =
+        color.model === 'hsl'
+          ? color.value
+          : convertColor[color.model].hsl(color.value);
 
-          // Determine the original color lightness value for its group
-          const lightnessString = l.toString();
-          const groupLightness = parseInt(
-            lightnessString.length === 1
-              ? lightnessString[0]
-              : lightnessString[1]
-          );
-          const tints = [];
+      // Determine the original color lightness value for its group
+      const lightnessString = l.toString();
+      const groupLightness = parseInt(
+        lightnessString.length === 1 ? lightnessString[0] : lightnessString[1]
+      );
+      const thresholds = [95, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+      let tints = Array(10).fill(null);
+      const initialIndex = thresholds.findIndex((t) => t <= l);
 
-          // Create the 9 lightness variants
-          for (let min = 90; min >= 10; min -= 10) {
-            let light = min + groupLightness;
-            tints.push({
-              s,
-              l: light,
-            });
-          }
+      // Place the given color at the correct index based on its lightness
+      tints[initialIndex] = { s, l };
 
-          const hex = convertColor[color.model].hex(color.value);
-          this.$emit('add', {
-            name: getColorName(hex),
-            h,
-            s,
-            tints,
-          });
+      // Generate the other lightnesses based on the given color lightness
+      tints = tints.map((tint, i) => {
+        if (tint) return tint;
 
-          this.sourceColor = '';
-        } else {
-          this.error = 'Invalid color code.';
-        }
-      } else {
-        this.$emit('add');
-      }
-    },
-  },
+        // Cap the lightness between the group min/max values
+        const l = Math.max(
+          Math.min(
+            i === 0 ? 100 : thresholds[i - 1],
+            thresholds[i] + groupLightness
+          ),
+          thresholds[i]
+        );
+
+        return { s, l };
+      });
+
+      tints.reverse();
+
+      const hex = convertColor[color.model].hex(color.value);
+      palettes.value.push({
+        name: getColorName(hex),
+        h,
+        s,
+        tints,
+      });
+
+      sourceColor.value = '';
+    } else {
+      error.value = 'Invalid color code.';
+    }
+  } else {
+    addPalette();
+  }
 };
 </script>
