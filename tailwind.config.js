@@ -1,16 +1,22 @@
+const plugin = require('tailwindcss/plugin');
+const colors = require('tailwindcss/colors');
+
 module.exports = {
-  important: true,
+  content: ['./index.html', './src/**/*.{vue,js}', './chusho.config.js'],
+
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gray: colors.slate,
+      },
+    },
   },
-  variants: {
-    margin: ['responsive', 'last'],
-  },
+
   plugins: [
-    function({ addBase }) {
+    plugin(function ({ addBase }) {
       addBase({
         a: { textDecoration: 'underline' },
       });
-    },
+    }),
   ],
 };

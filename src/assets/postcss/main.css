@@ -1,9 +1,3 @@
 @tailwind base;
-
 @tailwind components;
-
-@import './components/field.css';
-@import './components/btn-group.css';
-@import './components/box.css';
-
 @tailwind utilities;

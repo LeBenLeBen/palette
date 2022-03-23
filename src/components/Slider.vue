@@ -1,30 +1,57 @@
 <template>
-  <!--
-    min/max attributes are explicitely provided otherwise
-    it prevents the initial value from going beyond 100 for some reasons
-  -->
-  <input
-    :value="value"
-    type="range"
-    class="slider"
-    :min="$attrs.min"
-    :max="$attrs.max"
-    @input="$emit('input', $event.target.value)"
-  />
+  <div class="group w-full">
+    <input
+      :value="modelValue"
+      type="range"
+      class="slider"
+      :class="{ 'slider--hue': variant === 'hue' }"
+      v-bind="$attrs"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+    <div class="relative mx-[9px]">
+      <div
+        class="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 px-1 pb-0.5 absolute z-10 bottom-7 text-white text-sm font-bold transform -translate-x-1/2 bg-gray-700 bg-opacity-80 rounded-sm transition-opacity pointer-events-none"
+        :style="tooltipStyle"
+      >
+        {{ modelValue }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  props: {
-    value: {
-      type: Number,
-      required: true,
-    },
-  },
+  inheritAttrs: false,
 };
 </script>
 
-<style lang="postcss" scoped>
+<script setup>
+import { computed, useAttrs } from 'vue';
+
+const props = defineProps({
+  modelValue: {
+    type: Number,
+    required: true,
+  },
+  variant: {
+    type: String,
+    default: null,
+  },
+});
+
+defineEmits(['update:modelValue']);
+
+const attrs = useAttrs();
+const tooltipStyle = computed(() => {
+  const range = attrs.max - attrs.min;
+  const correctedStartValue = props.modelValue - attrs.min;
+  const percentage = (correctedStartValue * 100) / range;
+
+  return { left: `${percentage}%` };
+});
+</script>
+
+<style scoped>
 .slider {
   @apply appearance-none block w-full p-0 bg-transparent;
 

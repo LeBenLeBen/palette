@@ -1,105 +1,92 @@
 <template>
-  <div class="box p-4">
+  <div class="palette bg-white rounded-lg shadow-md p-4">
     <div class="palette__header mb-3">
       <div class="palette__about">
-        <h2 class="palette__title" contenteditable @input="updateName">
+        <h2 class="palette__title" contenteditable @blur="updateName">
           {{ palette.name }}
         </h2>
       </div>
 
       <ul class="palette__options flex flex-col lg:flex-row lg:justify-center">
         <li>
-          <div class="flex items-center">
-            <label
-              :for="`palette-${uid}-hue`"
-              class="palette__option-label mr-3"
-              >Hue</label
-            >
+          <CFormGroup v-slot="{ ids }" as="div" class="flex items-center">
+            <CLabel class="palette__option-label mr-3"> Hue </CLabel>
             <Slider
-              :id="`palette-${uid}-hue`"
+              :id="ids.field"
               v-model.number="palette.h"
               :min="0"
               :max="360"
-              class="slider--hue"
+              variant="hue"
             />
-          </div>
+          </CFormGroup>
         </li>
         <li class="mt-2 lg:mt-0 lg:ml-6">
-          <div class="flex items-center">
-            <label
-              :for="`palette-${uid}-saturation`"
-              class="palette__option-label mr-3"
-              >Saturation</label
-            >
+          <CFormGroup v-slot="{ ids }" as="div" class="flex items-center">
+            <CLabel class="palette__option-label mr-3"> Saturation </CLabel>
             <Slider
-              :id="`palette-${uid}-saturation`"
+              :id="ids.field"
               v-model.number="palette.s"
               :min="0"
               :max="100"
             />
-          </div>
+          </CFormGroup>
         </li>
       </ul>
 
       <div class="palette__actions">
-        <Btn
-          variant="bare"
-          class="hover:text-red-700 focus:text-red-700"
+        <CBtn
+          class="group hover:text-red-700 focus:text-red-700"
           title="Remove palette"
-          @click="$emit('remove')"
+          @click="removePalette"
         >
-          <Icon id="bin" :scale="0.75" class="mr-1 text-gray-600" />
+          <CIcon id="bin" class="mr-1 opacity-65" />
           Remove
-        </Btn>
+        </CBtn>
       </div>
     </div>
-    <ColorsList :palette.sync="palette" />
+    <ColorsList v-model:palette="palette" />
   </div>
 </template>
 
-<script>
-import nanoid from 'nanoid';
+<script setup>
+import { computed, watch } from 'vue';
 
-import ColorsList from '@/components/ColorsList';
-import Slider from '@/components/Slider';
+import { palettes } from '@/store';
 
-export default {
-  components: {
-    ColorsList,
-    Slider,
+import ColorsList from '@/components/ColorsList.vue';
+import Slider from '@/components/Slider.vue';
+
+const props = defineProps({
+  index: {
+    type: Number,
+    required: true,
   },
+});
 
-  props: {
-    palette: {
-      type: Object,
-      required: true,
-    },
-  },
+const palette = computed(() => palettes.value[props.index]);
 
-  computed: {
-    uid() {
-      return nanoid();
-    },
-  },
+watch(
+  () => palette.value?.s,
+  () => {
+    if (!palette.value) return;
 
-  watch: {
-    'palette.s'() {
-      this.palette.tints = this.palette.tints.map(tint => {
-        tint.s = this.palette.s;
-        return tint;
-      });
-    },
-  },
+    palette.value.tints = palette.value.tints.map((tint) => {
+      tint.s = palette.value.s;
+      return tint;
+    });
+  }
+);
 
-  methods: {
-    updateName(e) {
-      this.palette.name = e.target.innerText;
-    },
-  },
+const updateName = (e) => {
+  palette.value.name = e.target.textContent;
+};
+
+const removePalette = () => {
+  palettes.value.splice(props.index, 1);
 };
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .palette {
 }
 
@@ -122,7 +109,7 @@ export default {
 
 .palette__title {
   @apply inline-block;
-  @apply capitalize text-2xl;
+  @apply text-2xl;
   min-width: 10px;
 
   &:hover,

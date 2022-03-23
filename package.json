@@ -3,37 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "deploy": "./deploy.sh",
-    "start": "vue-cli-service serve"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "validate": "eslint . --ignore-path .gitignore --ext js --ext vue",
+    "test": "npm run validate",
+    "deploy": "./deploy.sh"
   },
   "dependencies": {
+    "@vueuse/core": "^8.1.1",
     "color-convert": "^2.0.1",
-    "color-name-list": "^4.11.0",
-    "color-string": "^1.5.5",
-    "core-js": "^3.3.6",
+    "color-name-list": "^9.0.1",
+    "color-string": "^1.9.0",
     "lz-string": "^1.4.4",
-    "nanoid": "^2.1.6",
     "nearest-color": "^0.4.4",
-    "query-string": "^6.9.0",
-    "v-clipboard": "^2.2.2",
-    "vue": "^2.6.10"
+    "tailwindcss": "^3.0.23",
+    "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.5",
-    "@vue/cli-plugin-eslint": "^4.0.5",
-    "@vue/cli-service": "^4.0.5",
-    "@vue/eslint-config-prettier": "^5.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.6.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-vue": "^5.2.3",
-    "fibers": "^4.0.2",
-    "postcss-import": "^12.0.1",
-    "precss": "^4.0.0",
-    "prettier": "^1.18.2",
-    "vue-cli-plugin-tailwind": "^1.1.0",
-    "vue-template-compiler": "^2.6.10"
+    "@vitejs/plugin-vue": "^2.2.4",
+    "autoprefixer": "^10.4.4",
+    "chusho": "^0.5.0",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "postcss": "^8.4.12",
+    "vite": "^2.8.6"
   }
 }
